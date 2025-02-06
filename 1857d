@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+void c_p_c() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+}
+
+void solve() {
+    int n;
+    cin >> n;
+
+    vector<int> a(n), b(n);
+    for (int &x : a) cin >> x;
+    for (int &x : b) cin >> x;
+
+    int max_val = a[0] - b[0];
+    vector<int> strong_vertices;
+    strong_vertices.reserve(n);
+
+    for (int i = 0; i < n; i++) {
+        int diff = a[i] - b[i];
+        if (diff > max_val) {
+            max_val = diff;
+            strong_vertices.clear();
+            strong_vertices.push_back(i + 1);
+        } else if (diff == max_val) {
+            strong_vertices.push_back(i + 1);
+        }
+    }
+
+    cout << strong_vertices.size() << "\n";
+    for (int v : strong_vertices) {
+        cout << v << " ";
+    }
+    cout << "\n";
+}
+
+int main() {
+    c_p_c();
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+
+    return 0;
+}
