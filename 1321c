@@ -1,0 +1,26 @@
+#include <iostream>
+#include <string>
+using namespace std;
+int main() {
+    freopen("/home/ares/CODE/qt-code/input.txt", "r",stdin);
+    freopen("/home/ares/CODE/qt-code/output.txt", "w",stdout);
+    int n ,sum = 0 ;cin >> n;
+    string s;cin >> s;
+    bool del = true;
+    while (del) {
+        del = false;
+        for (char c = 'z'; c >= 'a'; --c) {
+            for (size_t i = 0; i < s.size(); ++i) {
+                if (s[i] == c && ((i > 0 && s[i - 1] == c - 1) || (i + 1 < s.size() && s[i + 1] == c - 1))) {
+                    s.erase(s.begin() + i);
+                    sum++;
+                    del = true;
+                    break;
+                }
+            }
+            if (del) break;
+        }
+    }
+    cout << sum << endl;
+    return 0;
+}
