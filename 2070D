@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const ll MOD = 9999999999;
+void c_p_c() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+}
+void solve() {
+    int n;
+    cin >> n;
+    vector<vector<int>> children(n+1);
+    for (int i = 2; i <= n; ++i) {
+        int p;
+        cin >> p;
+        children[p].push_back(i);
+    }
+    vector<vector<int>> levels;
+    queue<int> q;
+    q.push(1);
+
+    while (!q.empty()) {
+        int sz = q.size();
+        levels.push_back({});
+        while (sz--) {
+            int u = q.front();
+            q.pop();
+            levels.back().push_back(u);
+            for (int v : children[u]) q.push(v);
+        }
+    }
+    vector<ll> f(n+1), F(levels.size()+2);
+    for (int d = levels.size()-1; d >= 1; --d) {
+        for (int u : levels[d]) {
+            f[u] = (1 + F[d+1]) % MOD;
+            for (int v : children[u])
+                f[u] = (f[u] - f[v] + MOD) % MOD;
+            F[d] = (F[d] + f[u]) % MOD;
+        }
+    }
+
+    F[1] = (F[1] + 1) % MOD;
+    cout << F[1] << '\n';
+}
+
+int main() {
+    c_p_c();
+    freopen("/home/ares/CODE/qt-code/speed/input.txt","r",stdin);
+    freopen("/home/ares/CODE/qt-code/speed/output.txt", "w",stdout);
+    int t;
+    cin >> t;
+    while (t--) solve();
+}
